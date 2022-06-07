@@ -1,0 +1,36 @@
+{
+  "name": "cdk-slack-feedback",
+  "version": "0.1.0",
+  "license": "MIT",
+  "bin": {
+    "cdk-slack-feedback": "bin/cdk-slack-feedback.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "format": "prettier --write .",
+    "deploy": "source ./env.sh && cdk deploy --require-approval never",
+    "clean": "rm -f lib/*.js lib/*.d.ts src/**/*.js src/**/*.d.ts"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.98",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/jest": "^27.5.0",
+    "@types/node": "10.17.27",
+    "@types/prettier": "2.6.0",
+    "aws-cdk": "2.27.0",
+    "esbuild": "^0.14.42",
+    "ts-node": "^10.7.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-lambda-nodejs": "^1.159.0",
+    "@slack/bolt": "^3.11.1",
+    "aws-cdk-lib": "2.27.0",
+    "aws-sdk": "^2.1148.0",
+    "constructs": "^10.0.0",
+    "prettier": "^2.6.2",
+    "source-map-support": "^0.5.21"
+  }
+}
