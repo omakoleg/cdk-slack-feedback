@@ -12,10 +12,7 @@ export const chunk = <A>(list: A[]): A[][] => {
 };
 
 export const getUserFeedbacksMessage = (feedbacks: Feedback[]): string =>
-  `*Your feedbacks:*\n${feedbacks.map((i) => `${i.text}`).join("\n")}`;
-
-export const getManagerSingleFeedbackMessage = (feedback: Feedback): string =>
-  `User *<@${feedback.userId}>* got feedback: \n${feedback.text}`;
+  `*Your recent feedbacks:*\n${feedbacks.map((i) => `• ${i.text}`).join("\n\n")}`;
 
 export const getManagerFeedbacksForUserMessage = (
   userFeedbacks: Feedback[]
@@ -33,6 +30,6 @@ export const getManagerFeedbacksForUserMessage = (
   );
   log(`getManagerFeedbacksForUserMessage. groupped`, groupped);
   return `*Feedbacks shared with You as a manager:*\n${Object.keys(groupped)
-    .map((key) => `<@${key}> feedbacks:\n${groupped[key].join("\n")}`)
+    .map((key) => `<@${key}> feedbacks:\n${groupped[key].map((i) => `• ${i}`).join("\n")}`)
     .join("\n")}`;
 };

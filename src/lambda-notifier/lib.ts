@@ -16,7 +16,9 @@ export const internalHandler =
 
       /** Notify User */
       const userFeedbacks = await databaseAdapter.getFeedbacksForUser(userId);
+      log("userFeedbacks", userFeedbacks);
       if (userFeedbacks.length > 0) {
+        log("userFeedbacks. none");
         await app.client.chat.postMessage({
           channel: userId,
           text: getUserFeedbacksMessage(userFeedbacks),
@@ -29,16 +31,19 @@ export const internalHandler =
           if (!prev[cur.managerId!]) {
             prev[cur.managerId!] = [];
           }
-          prev[cur.userId].push(cur);
+          prev[cur.managerId!].push(cur);
           return prev;
         }, {});
+      log("groupPerManager", groupPerManager);
       for (const managerId of Object.keys(groupPerManager)) {
         const managerFeedbacks = groupPerManager[managerId];
+        log(`manager ${managerId}`, managerFeedbacks);
         await app.client.chat.postMessage({
           channel: managerId,
           text: getManagerFeedbacksForUserMessage(managerFeedbacks),
         });
       }
+      log("delete", userFeedbacks);
       /** Remove current user feedbacks */
       await databaseAdapter.deleteUserFeedbacks(userFeedbacks);
       /** next */

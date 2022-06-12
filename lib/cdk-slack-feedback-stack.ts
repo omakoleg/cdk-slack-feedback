@@ -48,13 +48,14 @@ export class CdkSlackFeedbackStack extends Stack {
         entry: join(__dirname, "..", "src", "lambda-notifier", "index.ts"),
         handler: "handler",
         environment: {
+          SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET!,
           SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN!,
           REGION: process.env.REGION!,
         },
       }
     );
     new Rule(this, "LambdaSyslogLoaderRule", {
-      schedule: Schedule.expression("cron(0 10 ? * MON-FRI)"),
+      schedule: Schedule.expression("cron(0/5 * ? * * *)"), // ("cron(0 10 ? * MON-FRI)"),
       targets: [new LambdaFunction(feedbacksNotifier)],
     });
 

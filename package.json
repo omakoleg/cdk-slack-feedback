@@ -10,8 +10,10 @@
     "watch": "tsc -w",
     "cdk": "cdk",
     "format": "prettier --write .",
+    "update": "yarn build && yarn deploy",
     "deploy": "source ./env.sh && cdk deploy --require-approval never",
-    "clean": "rm -f lib/*.js lib/*.d.ts src/**/*.js src/**/*.d.ts"
+    "clean": "rm -f lib/*.js lib/*.d.ts src/**/*.js src/**/*.d.ts",
+    "local": "source ./env.sh && ts-node ./src/lambda-slack/local.ts"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.98",

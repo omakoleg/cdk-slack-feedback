@@ -5,7 +5,7 @@ export const modalView: View = {
   callback_id: "feedback_view",
   submit: {
     type: "plain_text",
-    text: "Add Kudo",
+    text: "Send",
     emoji: true,
   },
   close: {

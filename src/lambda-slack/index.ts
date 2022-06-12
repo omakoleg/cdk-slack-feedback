@@ -10,7 +10,7 @@ const region = process.env.REGION!;
 const docClient = new DynamoDB.DocumentClient({ region });
 
 const receiver = new AwsLambdaReceiver({
-  signingSecret,
+  signingSecret
 });
 
 const app = buildSlackBotApp(

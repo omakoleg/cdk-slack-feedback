@@ -1,14 +1,11 @@
-# Welcome to your CDK TypeScript project
+# Slack Feedbacks Application
 
-This is a blank project for CDK development with TypeScript.
+Slack Application to collect user feedbacks. Application accepts and regularly notifies users who received feedback and optionally their manager.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+Main Components
 
-## Useful commands
+![Components](./components.png)
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `cdk deploy` deploy this stack to your default AWS account/region
-- `cdk diff` compare deployed stack with current state
-- `cdk synth` emits the synthesized CloudFormation template
+Details are available in the blog post:
+
+<https://omakoleg.gitlab.io//posts/cdk-slack-feedbacks>

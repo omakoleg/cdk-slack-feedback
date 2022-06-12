@@ -80,12 +80,13 @@ export const buildDatabaseAdapter = (docClient: DynamoDB.DocumentClient) => {
 
     for (var group of groups) {
       var delReqs = [];
-      for (const { userId } of group) {
-        delReqs.push({ DeleteRequest: { Key: { userId } } });
+      for (const { userId, ts } of group) {
+        delReqs.push({ DeleteRequest: { Key: { userId, ts } } });
       }
       let RequestItems = {
         [TABLE_NAME]: delReqs,
       };
+      log("deleteUserFeedbacks request", RequestItems);
       await docClient.batchWrite({ RequestItems }).promise();
     }
   };

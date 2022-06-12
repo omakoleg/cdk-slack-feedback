@@ -1,10 +1,8 @@
-import { App, AppOptions } from "@slack/bolt";
+import { App, AppOptions, CodedError } from "@slack/bolt";
 import { modalView } from "./modal";
 import { DynamoDB } from "aws-sdk";
 import { Feedback, buildDatabaseAdapter } from "../shared/db";
 import {
-  getManagerFeedbacksForUserMessage,
-  getUserFeedbacksMessage,
   log,
 } from "../shared/helpers";
 
@@ -15,41 +13,14 @@ export const buildSlackBotApp = (
   const app = new App(options);
   const databaseAdapter = buildDatabaseAdapter(docClient);
 
-  // Modal handler showing popup or replying to the request
-  app.command("/kudos", async ({ ack, body, client, command }) => {
+  // Modal handler showing popup
+  app.command("/kudos", async ({ ack, body, client }) => {
     await ack();
     try {
-      if (command.text === "list") {
-        const myFeebbacks = await databaseAdapter.getFeedbacksForUser(
-          body.user_id
-        );
-        if (myFeebbacks.length > 0) {
-          await client.chat.postMessage({
-            channel: body.user_id,
-            text: getUserFeedbacksMessage(myFeebbacks),
-          });
-        } else {
-          await client.chat.postMessage({
-            channel: body.user_id,
-            text: `You don't have feedbacks submitted for You`,
-          });
-        }
-        const myManagerFeedbacks = await databaseAdapter.getFeedbacksForManager(
-          body.user_id
-        );
-        log(`kudos.myManagerFeedbacks`, myManagerFeedbacks);
-        if (myManagerFeedbacks.length > 0) {
-          await client.chat.postMessage({
-            channel: body.user_id,
-            text: getManagerFeedbacksForUserMessage(myManagerFeedbacks),
-          });
-        }
-      } else {
-        await client.views.open({
+      await client.views.open({
           trigger_id: body.trigger_id,
           view: modalView,
         });
-      }
     } catch (error) {
       console.error(error);
     }
@@ -92,5 +63,23 @@ export const buildSlackBotApp = (
       text,
     });
   });
+
+  // Each "action_id" mentioned in the view will receive
+  // events when there was some interaction with input on the view
+  app.action("select_user", async ({ ack, body }) => {
+    await ack();
+    log("select_user", body);
+  });
+
+  app.action("select_manager", async ({ ack, body }) => {
+    await ack();
+    log("select_manager", body);
+  });
+
+  app.action("input_feedback", async ({ ack, body }) => {
+    await ack();
+    log("input_feedback", body);
+  });
+
   return app;
 };
